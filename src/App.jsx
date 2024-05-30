@@ -80,7 +80,6 @@ const CrudApp = () => {
   );
 };
 
-// Composant pour ajouter un nouvel élément
 const AddItemForm = ({ addItem, categories }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -94,11 +93,11 @@ const AddItemForm = ({ addItem, categories }) => {
       title,
       description,
       price: parseFloat(price),
-      category_id: parseInt(categoryId, 10), // Conversion en entier
+      category_id: parseInt(categoryId, 10),
     };
-    // Ajouter l'élément à la liste
+
     addItem(newItem);
-    // Optionnel : Envoyer l'élément au backend
+
     fetch("http://10.17.10.12:8000/items", {
       method: "POST",
       headers: {
@@ -106,7 +105,7 @@ const AddItemForm = ({ addItem, categories }) => {
       },
       body: JSON.stringify(newItem),
     });
-    // Réinitialiser les champs du formulaire
+
     setTitle("");
     setDescription("");
     setPrice("");
