@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 
+
 // eslint-disable-next-line react/display-name, react/prop-types
 const ListComponent = React.memo(({ items, categories, deleteItem }) => {
   const getCategoryName = (categoryId) => {
@@ -35,8 +36,9 @@ const CrudApp = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
-    fetch("http://10.17.10.12:8000/items")
+    fetch(`http://localhost:8000/items`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -48,7 +50,7 @@ const CrudApp = () => {
   }, []);
 
   useEffect(() => {
-    fetch("http://10.17.10.12:8000/categories")
+    fetch(`http://localhost:8000/categories`)
       .then((response) => response.json())
       .then((data) => setCategories(data))
       .catch((error) => console.error("Error fetching categories:", error));
@@ -60,7 +62,7 @@ const CrudApp = () => {
 
   const deleteItem = useCallback((id) => {
     setItems((prevItems) => prevItems.filter(item => item.id !== id));
-    fetch(`http://10.17.10.12:8000/items/${id}`, {
+    fetch(`http://localhost:8000/items/${id}`, {
       method: "DELETE",
     });
   }, []);
@@ -72,7 +74,7 @@ const CrudApp = () => {
     <div style={{ padding: "20px", maxWidth: "800px", margin: "0 auto" }}>
       <h1>CRUD App</h1>
       {error && <div style={{ color: "red" }}>Error: {error.message}</div>}
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: 'center' }}>
+      <div style={{ display: "flex", justifyContent: "space-between"}}>
         <ListComponent items={memoizedItems} categories={memoizedCategories} deleteItem={deleteItem} />
         <AddItemForm addItem={addItem} categories={memoizedCategories} />
       </div>
@@ -98,7 +100,7 @@ const AddItemForm = ({ addItem, categories }) => {
 
     addItem(newItem);
 
-    fetch("http://10.17.10.12:8000/items", {
+    fetch(`http://localhost:8000/items`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
